@@ -1,0 +1,15 @@
+[Unit]
+Description=PokéBot, bot Discord de PokéSurvivor Community
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=pokebot
+WorkingDirectory=/opt/pokebot/app
+ExecStart=/usr/bin/node src/index.js
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
