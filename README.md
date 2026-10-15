@@ -16,6 +16,7 @@ Discord bot for the unofficial PokéSurvivor Community server. It turns Pokémon
   - `[[Thunderbolt]]`
   - `[[Mewtwo: Confusion, Swords Dance, Harden, Psychic]]`
 - Typos get a suggestion: "Did you mean **Pikachu**?"
+- Datamine: after each game update, posts what changed in the game data (Pokémon, moves, items, upgrades, gacha, type chart) along with the new patch notes.
 
 | Pokémon card | Move card |
 |---|---|
@@ -23,7 +24,15 @@ Discord bot for the unofficial PokéSurvivor Community server. It turns Pokémon
 
 ## How it works
 
-`scripts/build-data.js` downloads the game's data files from [JPTER78/pokesurvivor](https://github.com/JPTER78/pokesurvivor) (Pokédex, moves, type chart, English translations), runs them in a sandbox and writes `data/game.json`. Official English Pokémon names come from [PokéAPI](https://github.com/PokeAPI/pokeapi).
+`scripts/build-data.js` downloads the game's data files from [JPTER78/pokesurvivor](https://github.com/JPTER78/pokesurvivor) (Pokédex, moves, type chart, items, upgrades, gacha, patch notes, English translations), runs them in a sandbox and writes `data/game.json`. Official English Pokémon names come from [PokéAPI](https://github.com/PokeAPI/pokeapi).
+
+`scripts/datamine.js` compares `data/game.json` with the last announced version (`state/datamine.json`) and posts the differences on Discord. The first run only records the current version. To preview the post for any past update without posting:
+
+```bash
+node scripts/build-data.js --commit <parent-sha> --output cache/before.json
+node scripts/build-data.js --commit <sha> --output cache/after.json
+node scripts/datamine.js --before cache/before.json --after cache/after.json --dry-run
+```
 
 Cards are laid out with [satori](https://github.com/vercel/satori), rendered with [resvg](https://github.com/yisibl/resvg-js) and compressed with [sharp](https://github.com/lovell/sharp). Portraits are downloaded from PMD SpriteCollab and cached in `cache/`.
 
@@ -50,7 +59,7 @@ DISCORD_TOKEN=your-token GUILD_ID=your-server-id pnpm start
 3. Put the token in `/opt/pokebot/.discord-token.txt`, owned by `pokebot` with mode `600`.
 4. From your machine, run `bash deploy/deploy.sh` to upload and (re)start the bot.
 
-A systemd timer refreshes the game data every 6 hours and restarts the bot only when the data changed.
+A systemd timer refreshes the game data every 15 minutes, restarts the bot only when the data changed, then runs the datamine. The game's code runs as a separate `pokebot-data` user that can't read the Discord token.
 
 ## Credits
 
