@@ -1,0 +1,10 @@
+[Unit]
+Description=Mise à jour des données PokéSurvivor toutes les 6 heures
+
+[Timer]
+OnCalendar=*-*-* 00/6:00:00
+RandomizedDelaySec=10min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
