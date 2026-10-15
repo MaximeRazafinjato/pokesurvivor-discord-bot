@@ -1,5 +1,5 @@
 [Unit]
-Description=Mise à jour des données PokéSurvivor pour PokéBot
+Description=Mise à jour des données PokéSurvivor et datamine pour PokéBot
 After=network-online.target
 Wants=network-online.target
 

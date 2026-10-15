@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "build-data": "node scripts/build-data.js",
+    "datamine": "node scripts/datamine.js",
     "preview": "node scripts/preview.js",
     "start": "node src/index.js"
   },

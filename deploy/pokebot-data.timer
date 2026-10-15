@@ -1,9 +1,9 @@
 [Unit]
-Description=Mise à jour des données PokéSurvivor toutes les 6 heures
+Description=Mise à jour des données PokéSurvivor et datamine toutes les 15 minutes
 
 [Timer]
-OnCalendar=*-*-* 00/6:00:00
-RandomizedDelaySec=10min
+OnCalendar=*:0/15
+RandomizedDelaySec=1min
 Persistent=true
 
 [Install]
